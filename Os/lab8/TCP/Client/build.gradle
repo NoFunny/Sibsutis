@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'Os_Labs'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+mainClassName = "nofunny.Client"
+
+run {
+    standardInput = System.in;
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
