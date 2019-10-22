@@ -1,0 +1,3 @@
+подключение ssh nofunny@127.0.1.1
+перезагрузка\запуск\стоп sudo /etc/init.d/ssh restart\start\stop
+создание демона  sudo update-rc.d ssh defaults
