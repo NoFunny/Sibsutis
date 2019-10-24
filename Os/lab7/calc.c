@@ -17,10 +17,6 @@ double division(double a, double b) {
   return a/b;
 }
 
-// int div_rem(int a, int b) {
-//   return a%b;
-// }
-
 double extent(double a, double b) {
   for(int i = 0; i < b; i++) {
     a*=a;
@@ -34,5 +30,5 @@ int factorial(int a){
 
 void _help() {
   printf("OPERATIONS:\n");
-  printf("add(+) - сложение\nsub(-) - вычитание\nmul(*) - умножение\ndiv(/) - деление\ndib-rem(%) - остаток от деления\nextent(^) - возведение в степень\nfactorial(!) - факториал\n");
+  printf("(+) - сложение\n(-) - вычитание\n(*) - умножение\n(/) - деление\n(^) - возведение в степень\n(!) - факториал\n");
 }
