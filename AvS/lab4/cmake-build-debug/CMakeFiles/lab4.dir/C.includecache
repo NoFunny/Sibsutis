@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/nofunny/Рабочий стол/study/AvS/lab4/main.c
+stdio.h
+-
+stdlib.h
+-
+malloc.h
+-
+time.h
+-
+

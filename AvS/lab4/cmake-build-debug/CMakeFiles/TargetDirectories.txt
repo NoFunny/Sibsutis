@@ -1,0 +1,3 @@
+/home/nofunny/Рабочий стол/study/AvS/lab4/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/nofunny/Рабочий стол/study/AvS/lab4/cmake-build-debug/CMakeFiles/lab4.dir
+/home/nofunny/Рабочий стол/study/AvS/lab4/cmake-build-debug/CMakeFiles/edit_cache.dir
