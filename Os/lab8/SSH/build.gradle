@@ -14,12 +14,9 @@ run {
 }
 repositories {
     mavenCentral()
-        jcenter()
-        maven { url 'https://maven.google.com' }
-        google()
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    implementation 'com.jcraft:jsch:0.1.55'
+    compile group: 'com.jcraft', name: 'jsch', version: '0.1.55'
 }

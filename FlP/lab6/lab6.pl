@@ -24,9 +24,21 @@ split_list([Head|Tail], X, Y, List1, List2, [Head|List3]):-
 maximum:-
     write('Введи список A:'),nl,
     read(A),
-    max_list(A, Max),
+    maxlist(A, Max),
     list_max(A,B, Max, 1),
     writeln(B).
+
+    maxlist([],0).
+
+    maxlist([Head|Tail],Max) :-
+    maxlist(Tail,TailMax),
+    Head > TailMax,
+    Max is Head.
+
+    maxlist([Head|Tail],Max) :-
+    maxlist(Tail,TailMax),
+    Head =< TailMax,
+    Max is TailMax.
 
     list_max([],[], _, _).
 

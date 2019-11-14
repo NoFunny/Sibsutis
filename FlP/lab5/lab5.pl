@@ -8,7 +8,7 @@ print_uneven(X, Y) :-
 print_uneven(X, Y) :-
 	Y \== X, Y1 is Y - 1, print_uneven(X, Y1).
 
-uneven() :- read(X), read(Y), print_uneven(Y, X).
+uneven() :- read(X), read(Y), print_uneven(X, Y).
 
 
 %--------------------2-----------------------
