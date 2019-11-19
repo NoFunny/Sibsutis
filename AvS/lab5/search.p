@@ -9,7 +9,7 @@ set key right bottom
 unset log
 set xlabel "Threads"
 set ylabel "Speedup"
-set xrange [2 : 10]
+set xrange [0 : 10]
 set yrange [0 : 10]
 
 plot "linear.txt" using 1:2 with linespoints linecolor 6 title "Linear speedup", "5000x5000.txt" using 1:2 with linespoints linecolor 5 title "m=n=5000","10000x10000.txt" using 1:2 with linespoints linecolor 4 title "m=n=10000","20000x20000.txt" using 1:2 with linespoints linecolor 3 title "m=n=20000"
