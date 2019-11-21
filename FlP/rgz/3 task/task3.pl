@@ -23,17 +23,19 @@ read(Transport),
 writeln('Номер маршрута: '),
 read(Number),
 write('Остановки: '), read(Ost),
-assertz(information(Transport,Number,[Ost])).
+assertz(information(Transport,Number,Ost)).
 
 process(2):-
 repeat,
-writeln('Какой маршрут удалить? (0 - для выхода)'),
-writeln('Тип транспорта'),
-read(Transport),
-writeln('Номер'),
-read(Number),
-(Transport < 0, !),
-retract(information(Transport,Number,N1)).
+writeln('Хочешь удалить маршрут? (yes-да / no - для выхода)'),nl,
+read(Choice),nl,
+(Choice == yes ->
+  write('Тип транспорта'),nl,
+  read(Transport),nl,
+  writeln('Номер'),nl, read(Number),   retract(information(Transport,Number,N1)),nl;
+  write('Отмена'),!).
+% answer(n).
+% answer(_):-
 
 process(3):-writeln('Введите название остановки №1'),
 read(X),
