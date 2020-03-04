@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'Tpl'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+mainClassName = "lexer.Main"
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'net.sf.oval', name: 'oval', version: '1.90'
+//    compile group: 'org.jboss.shrinkwrap', name: 'shrinkwrap-api', version: '1.2.6'
+//    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+//    testCompile group: 'org.jboss.arquillian.junit', name: 'arquillian-junit-container', version: '1.6.0.Final'
+}
