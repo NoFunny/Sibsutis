@@ -136,7 +136,7 @@ public class Parser {
             lexerList.match("ID");
             forkInit = parseSecondForkInitInsideClass();
         } else {
-            throw new CriticalParseException("expecting <" + "l_square or ID"
+            throw new CriticalParseException("expecting <" + "OPEN_SQUARE_BRACKET or ID"
                     + ">, but found is <"+ lexerList.getLookahead().getType() +
                     ":" + lexerList.getLookahead().getValue()
                     + "> in " + lexerList.getLookahead().getLocation());
@@ -189,7 +189,7 @@ public class Parser {
             arrayMember = new ArrayMemberId(lexerList.getLookahead());
             lexerList.match("ID");
         } else {
-            throw new CriticalParseException("expecting <id or numeric_constant"
+            throw new CriticalParseException("expecting <ID or INT,FLOAT,OCTAL,HEX"
                     + ">, but found is <"+ lexerList.getLookahead().getType() +
                     ":" + lexerList.getLookahead().getValue()
                     + "> in " + lexerList.getLookahead().getLocation());
@@ -208,7 +208,7 @@ public class Parser {
         } else if (currentTokenType.equals("EQUAL")) {
             forkInit = parseForkInitVar();
         } else {
-            throw new CriticalParseException("expecting <" + "l_paren or equal"
+            throw new CriticalParseException("expecting <" + "OPEN_BRACKET or EQUAL"
                     + ">, but found is <"+ lexerList.getLookahead().getType() +
                     ":" + lexerList.getLookahead().getValue()
                     + "> in " + lexerList.getLookahead().getLocation());
@@ -333,7 +333,7 @@ public class Parser {
             forkInit.chooseType();
             node.setForkInit(forkInit);
         } else {
-            throw new CriticalParseException("expecting <" + "l_square or id"
+            throw new CriticalParseException("expecting <" + "OPEN_SQUARE_BRACKET or ID"
                     + ">, but found is <"+ lexerList.getLookahead().getType() +
                     ":" + lexerList.getLookahead().getValue()
                     + "> in " + lexerList.getLookahead().getLocation());
@@ -371,7 +371,7 @@ public class Parser {
             parseArithmetic(node);
             parseExprFork(node);
         } else {
-            throw new CriticalParseException("expecting <ID or INTEGER or BINARSUB" +
+            throw new CriticalParseException("expecting <ID or INTEGER,FLOAT,HEX,OCTAL or BINARSUB" +
                     " or STRING or OPEN_BRACKET>, but found is <"
                     + lexerList.getLookahead().getType()
                     + ":" + lexerList.getLookahead().getValue()
@@ -563,7 +563,7 @@ public class Parser {
                 }
             }
         } else {
-            throw new CriticalParseException("expecting <" + "OPEN_BRACKET or ID or INTEGER or STRING"
+            throw new CriticalParseException("expecting <" + "OPEN_BRACKET or ID or INTEGER,FLOAT,HEX,OCTAL or STRING"
                     + ">, but found is <"+ lexerList.getLookahead().getType() +
                     ":" + lexerList.getLookahead().getValue()
                     + "> in " + lexerList.getLookahead().getLocation());
@@ -588,7 +588,7 @@ public class Parser {
             node.setValue(lexerList.getLookahead());
             lexerList.match("STRING");
         } else {
-            throw new CriticalParseException("expecting <" + "ID or INTEGER or OCTAL or FLOAT or HEX or STRING"
+            throw new CriticalParseException("expecting <" + "ID or INTEGER,OCTAL,FLOAT,HEX or STRING"
                     + ">, but found is <"+ lexerList.getLookahead().getType() +
                     ":" + lexerList.getLookahead().getValue()
                     + "> in " + lexerList.getLookahead().getLocation());
