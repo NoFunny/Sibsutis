@@ -17,6 +17,9 @@ public class Main {
     private static LinkedList<Token> tokenss = new LinkedList<>();
     private static Tokenizer tokenizer = null;
 
+    static lex Lexer;
+    static parse Parser;
+
     public static void main(String[] args) throws IOException {
         String input = readFile("/home/nofunny/Рабочий стол/study/curs3.2/TPL/lab1/src/main/resources/alg.java");
         String outputDir = "/home/nofunny/Рабочий стол/study/curs3.2/TPL/lab1/src/main/resources/out.txt";
@@ -50,22 +53,10 @@ public class Main {
                     identifierTable.printTable();
                     break;
                 case 3:
-                    tokenizer = new Tokenizer(input);
-                    System.out.println(tokenizer.getTokenss());
-                    writeTokensToFile(outputDir);
-                    Parser parser1 = new Parser(new LexerList(tokenizer));
-                    NodeClass root1 = parser1.go();
-//                    parser.showTree();
-                    parser1.printTreeToFile();
-                    Table identifierTable1 = new Table();
-                    try {
-                        identifierTable1.go(root1);
-                    } catch (SemanticException e) {
-                        System.out.println(String.format("\nERROR [semantic]: %s\n",
-                                e.getMessage()));
-                        return;
-                    }
-                    identifierTable1.printTable();
+                    Lexer = new lex();
+                    Thread threadLex = new Thread(Lexer);
+                    threadLex.start();
+                    System.out.println("Потоки закончили свою работу!");
                     break;
                 case 4:
                     flag = false;
@@ -80,7 +71,6 @@ public class Main {
 
 
     public static String readFile(String fileDir) {
-
         try (BufferedReader reader = new BufferedReader(new FileReader(fileDir))) {
             String result = "";
             String line = "";
