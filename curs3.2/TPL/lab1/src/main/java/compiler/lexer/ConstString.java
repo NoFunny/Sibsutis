@@ -1,4 +1,4 @@
-package lexer;
+package compiler.lexer;
 
 import net.sf.oval.constraint.NotNull;
 

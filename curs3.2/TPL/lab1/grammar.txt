@@ -1,0 +1,79 @@
+<Program> : <class>
+
+<class>:
+    <modAccessClass> class <id> {
+        <initList>
+        <mainMethod>
+    }
+
+<modAccessClass>:
+    public |
+    private |
+    protected
+
+<mainMethod> : public static void main(String[] args) {
+  <statementList>
+}
+
+<statementList> : <statement>
+
+<expression>:
+    <arithmetic> <exprFork> |
+
+<exprFork>:
+    <logicOperator> <expression> |
+    <condition> <expression> |
+    ; |
+    E
+
+<arithmetic>:
+    <secondPrior>
+
+<secondPrior>:
+    <firstPrior><secondPrior_>
+<secondPrior_>:
+    <secondPriorOper><firstPrior><secondPrior_> |
+    E
+
+<firstPrior>:
+    <group><firstPrior_>
+<firstPrior_>:
+    <firstPriorOper><group><firstPrior_> |
+    E
+
+<group>:
+     (<expression>) <operator> <expression> |
+     <valueExpr>
+
+<firstPriorOper>: * | /
+
+<secondPriorOper>: + | - | =
+
+<operator>: + | - | * | / | =
+
+<return>:
+    return <expression> | ;
+
+<loop>:
+    while (<expression>) {
+      <statementList>
+    }
+
+<statement> :
+      { <statement> } |
+      <loop> |
+      <conditional> |
+      <expression> |
+      <System.out.println> |
+      <return> |
+      ;
+
+<conditional> : if (<expression>) {
+                  <statementList>
+                } <elseFork>
+
+<elseFork> : else <elseFork1> | E
+
+<elseFork1> : <conditional> | {<statementList>}
+
+<System.out.println>: System.out.println(<expression>);

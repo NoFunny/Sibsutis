@@ -1,4 +1,4 @@
-package lexer;
+package compiler.lexer;
 
 public abstract class Container {
 

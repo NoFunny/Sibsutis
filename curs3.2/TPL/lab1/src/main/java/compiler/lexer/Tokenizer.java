@@ -1,4 +1,4 @@
-package lexer;
+package compiler.lexer;
 
 import java.util.LinkedList;
 import java.util.regex.Matcher;
@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 public class Tokenizer {
     private String stack;
     private LinkedList<String> tokens;
+    private LinkedList<Token> tokenss = new LinkedList<>();
 
 
     public Tokenizer(String input) {
@@ -15,8 +16,12 @@ public class Tokenizer {
         toTokens(processComments(input));
     }
 
+    public LinkedList<Token> getTokenss() {
+        return tokenss;
+    }
 
     public static String processComments(String input) {
+
 
         System.out.println(input);
         String commentRegex = "(?:/\\*(?:[^*]|(?:\\*+[^*/]))*\\*+/)|(?://.*)";
@@ -41,9 +46,9 @@ public class Tokenizer {
         return input.replaceAll(commentRegex, "");
     }
 
-    public String getNextToken() {
-        if (tokens.size() > 0) {
-            return tokens.remove(0);
+    public Token getNextToken() {
+        if (tokenss.size() > 0) {
+            return tokenss.remove(0);
         } else
             return null;
     }
@@ -58,6 +63,9 @@ public class Tokenizer {
         int lineCount = 1;
         int index = 1;
 
+        tokens.add("loc = <0:0> 'program' (program)" + ';');
+        tokenss.add(new Token("program", "program",new Location(0,0)));
+        System.out.println("loc = <0:0> 'program' (program)");
         for (Character c : input.toCharArray()) {
             if((c == '\n' && stack.equals("{")) || (c == '\n' && stack.equals(";")) || (c == '\n' && stack.equals("}"))) {
                 flushStack(lineCount, index);
@@ -77,7 +85,9 @@ public class Tokenizer {
                         stack += c;
                         continue;
                     } else {
-                        tokens.add(littmp + " " + stack + c + "\t");
+
+                        tokenss.add(new Token(littmp, stack+c, new Location(lineCount,index)));
+                        tokens.add(String.format("loc <%d:%d>: '%s' %s",lineCount,index, stack + c, littmp) + ";");
                         index++;
                         System.out.println(String.format("loc <%d:%d>: '%s' %s",lineCount,index, stack + c, littmp));
                         stack = "";
@@ -110,7 +120,8 @@ public class Tokenizer {
                             if (numtmp != null) {
 
                                 System.out.println(String.format("loc = <%d:%d> '%s' (%s)",lineCount,index-1, stack.substring(0, i), numtmp));
-                                tokens.add(numtmp + " " + stack.substring(0, i) + "\t");
+                                tokenss.add(new Token(numtmp, stack.substring(0,i), new Location(lineCount,index)));
+                                tokens.add(String.format("loc = <%d:%d> '%s' (%s)",lineCount,index-1, stack.substring(0, i), numtmp) + ";");
 
                                 stack = stack.substring(i);
                             }
@@ -144,7 +155,8 @@ public class Tokenizer {
 
         if (stack != null && stack.length() > 0)
             flushStack(lineCount, index);
-        tokens.add(EOF);
+        tokenss.add(new Token(EOF, "", new Location(lineCount,index)));
+        tokens.add(String.format("loc = <%d:%d> '' %s", lineCount, index, EOF));
         System.out.println(String.format("loc = <%d:%d> %s", lineCount, index, EOF));
     }
 
@@ -158,7 +170,8 @@ public class Tokenizer {
                 tmp = "UNKNOWN";
                 System.out.print("\033[0;31m");
             }
-            tokens.add(tmp + " " + stack + "\t");
+            tokenss.add(new Token(tmp, stack, new Location(lineCount,index)));
+            tokens.add(String.format("loc = <%d:%d> '%s' (%s)", lineCount, index, stack, tmp) + ";");
             System.out.println(String.format("loc = <%d:%d> '%s' (%s)", lineCount, index, stack, tmp) + "\u001B[0m");
             stack = "";
         }
@@ -210,13 +223,24 @@ public class Tokenizer {
     private final static Container[] SYNTAX_PATTERNS = {
             new Keywords(),
             new ConstString("OPEN_CURL_BRACKET", "{"),
-            new ConstString("type_int", "int"),
-            new ConstString("type_String", "String"),
-            new ConstString("type_Void", "void"),
-            new ConstString("type_char", "char"),
             new ConstString("CLOSE_CURL_BRACKET", "}"),
+            new ConstString("INT", "int"),
+//            new ConstString("type_String", "String"),
+            new ConstString("VOID", "void"),
+            new ConstString("FLOOAT", "float"),
+            new ConstString("CHAAR", "char"),
+            new ConstString("NEW", "new"),
             new ConstString("OPEN_BRACKET", "("),
             new ConstString("CLOSE_BRACKET", ")"),
+            new ConstString("CLASS", "class"),
+            new ConstString("PUBLIC", "public"),
+//            new ConstString("MAIN", "main"),
+            new ConstString("PRIVATE", "private"),
+            new ConstString("PROTECTED", "protected"),
+            new ConstString("STATIC", "static"),
+            new ConstString("PRINTLN", "println"),
+            new ConstString("SCANLN", "scanln"),
+            new ConstString("RETURN", "return"),
             new Regexp("BOOLEAN_LITERAL", "(TRUE|true|True|FALSE|false|False)"),
             new Regexp("UNARPLUS", "(\\+\\+)"),
             new Regexp("UNARSUB", "(--)"),
@@ -225,27 +249,27 @@ public class Tokenizer {
             new Regexp("MUL", "(\\*)"),
             new Regexp("DIV", "(/)"),
             new Regexp("MOD", "(%)"),
-            new Regexp("OPERATOR", "(>>|<<)"),
+//            new Regexp("OPERATOR", "(>>|<<)"),
             new Regexp("GREATER", "(>).*"),
             new Regexp("LESS", "(<).*"),
-            new Regexp("STRUCTURE_REFERENCE", "[a-zA-Z_][a-zA-Z0-9_]*\\("),
+//            new Regexp("STRUCTURE_REFERENCE", "[a-zA-Z_][a-zA-Z0-9_]*\\("),
             new Regexp("EqEQUAL", "(==)"),
             new Regexp("EQUAL", "(=)"),
-            new Regexp("GreatOrEq", "(<=)"),
-            new Regexp("LessOrEq", "(>=)"),
+            new Regexp("LessOrEq", "(<=)"),
+            new Regexp("GreatOrEq", "(>=)"),
             new Regexp("NotEqual", "(!=)"),
             new ConstString("IF_OPERATOR", "if"),
             new ConstString("WHILE_OPERATOR", "while"),
             new ConstString("ELSE_OPERATOR", "else"),
-            new Regexp("LOGIC_AND", "[&,\\|]"),
-            new Regexp("LOGIC_OR", "[\\|]"),
-            new Regexp("QUICK_OPERATOR", "(\\+=|-=|\\*=|/=)"),
+            new Regexp("LOGIC_AND", "(&&)"),
+            new Regexp("LOGIC_OR", "(\\|\\|)"),
+//            new Regexp("QUICK_OPERATOR", "(\\+=|-=|\\*=|/=)"),
             new ConstString("COMMA", ","),
             new ConstString("OPEN_SQUARE_BRACKET", "["),
             new ConstString("CLOSE_SQUARE_BRACKET", "]"),
             new ConstString("SEMICOLON", ";"),
             new ConstString("COLON", ":"),
-            new ConstString("DOT", "."),
+//            new ConstString("DOT", "."),
             new Regexp("NULL_LITERAL", "(Null|NULL|null)"),
             new Regexp("ID", "^([a-zA-Z_$])([a-zA-Z_$0-9])*$"),
     };
